@@ -33,7 +33,7 @@ public class Game {
             return Hand.ROYAL_FLUSH;
         }
         if (handValueChecker.checkStraightFlush(cardList)) {
-            return Hand.FLUSH;
+            return Hand.STRAIGHT_FLUSH;
         }
         if (handValueChecker.checkFourOfKind(cardList)) {
             return Hand.FOUR_OF_A_KIND;
