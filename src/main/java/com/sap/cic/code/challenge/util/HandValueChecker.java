@@ -26,7 +26,7 @@ public class HandValueChecker {
         }
     }
 
-    // FIXME 这里其实用AOP的方式实现更好，但是这个项目没必要用到spring，太重不合适
+    // FIXME should use Spring AOP but too heavy for this project
     public ErrorCode checkLegality(List<Card> cardList) {
         if (cardList == null || cardList.size()!=DECK_SIZE) {
             return ErrorCode.CARD_LIST_ERROR;
@@ -112,14 +112,14 @@ public class HandValueChecker {
                 && cardKindValueList.contains(Card.Kind.THREE.rank)
                 && cardKindValueList.contains(Card.Kind.FOUR.rank)
                 && cardKindValueList.contains(Card.Kind.FIVE.rank)) {
-            // ACE作1时特殊考虑
+            // consider when ACE works as 1
             return true;
         }
         Collections.sort(cardKindValueList);
-        // 根据牌型决定最多能有多少冗余剔除的牌位
+        // Decides toleration according to the remaining cards number
         int toleration = 2 - (7 - cardKindValueList.size());
         for (int i=0; i<cardKindValueList.size()-1; i++) {
-            // 选取符合规则的5张牌，可以剔除其中2张
+            // choose the following five cards
             if (cardKindValueList.get(i+1) - cardKindValueList.get(i) != 1) {
                 toleration--;
                 if (toleration < 0) {
