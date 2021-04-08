@@ -1,5 +1,6 @@
 package com.sap.cic.code.challenge;
 
+import com.sap.cic.code.challenge.util.ErrorCode;
 import com.sap.cic.code.challenge.util.HandValueChecker;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +10,6 @@ import java.util.List;
 @Slf4j
 public class Game {
     private List<Card> cardList;
-    private static Integer DECK_SIZE = 7;
     private HandValueChecker handValueChecker = HandValueChecker.getInstance();
 
     public static Game create() {
@@ -26,8 +26,16 @@ public class Game {
 
     //EDIT ME PLEASE!
     public Hand showHand() throws GameException {
-        if (cardList == null || cardList.size()!=DECK_SIZE) {
-            throw new GameException("cardList unknown error");
+        ErrorCode errorCode = handValueChecker.checkLegality(cardList);
+        switch (errorCode) {
+            case SUCC:
+                break;
+            case CARD_LIST_ERROR:
+                throw new GameException("cardList unknown error");
+            case CARD_VALUE_ERROR:
+                throw new GameException("cardList contains duplicate card");
+            default:
+                throw new GameException("unknown error");
         }
         if (handValueChecker.checkRoyalFlush(cardList)) {
             return Hand.ROYAL_FLUSH;
