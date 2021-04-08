@@ -1,6 +1,9 @@
 
 package com.sap.cic.code.challenge;
 
+import lombok.Data;
+
+@Data
 public class Card implements Comparable<Card> {
 
     public enum Suit {

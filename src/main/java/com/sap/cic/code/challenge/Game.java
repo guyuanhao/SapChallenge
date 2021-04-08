@@ -9,6 +9,8 @@ import java.util.List;
 @Slf4j
 public class Game {
     private List<Card> cardList;
+    private static Integer DECK_SIZE = 7;
+    private HandValueChecker handValueChecker = HandValueChecker.getInstance();
 
     public static Game create() {
         return new Game();
@@ -24,36 +26,40 @@ public class Game {
 
     //EDIT ME PLEASE!
     public Hand showHand() throws GameException {
-        if (HandValueChecker.checkRoyalFlush(cardList)) {
+        if (cardList == null || cardList.size()!=DECK_SIZE) {
+            throw new GameException("cardList unknown error");
+        }
+        if (handValueChecker.checkRoyalFlush(cardList)) {
             return Hand.ROYAL_FLUSH;
         }
-        if (HandValueChecker.checkStraightFlush(cardList)) {
+        if (handValueChecker.checkStraightFlush(cardList)) {
             return Hand.FLUSH;
         }
-        if (HandValueChecker.checkFourOfKind(cardList)) {
+        if (handValueChecker.checkFourOfKind(cardList)) {
             return Hand.FOUR_OF_A_KIND;
         }
-        if (HandValueChecker.checkFullHouse(cardList)) {
+        if (handValueChecker.checkFullHouse(cardList)) {
             return Hand.FULL_HOUSE;
         }
-        if (HandValueChecker.checkFlush(cardList)) {
+        if (handValueChecker.checkFlush(cardList)) {
             return Hand.FLUSH;
         }
-        if (HandValueChecker.checkStraight(cardList)) {
+        if (handValueChecker.checkStraight(cardList)) {
             return Hand.STRAIGHT;
         }
-        if (HandValueChecker.checkThreeOfKind(cardList)) {
+        if (handValueChecker.checkThreeOfKind(cardList)) {
             return Hand.THREE_OF_A_KIND;
         }
-        if (HandValueChecker.checkTwoPairs(cardList)) {
+        if (handValueChecker.checkTwoPairs(cardList)) {
             return Hand.TWO_PAIRS;
         }
-        if (HandValueChecker.checkPair(cardList)) {
+        if (handValueChecker.checkPair(cardList)) {
             return Hand.PAIR;
         }
-        if (HandValueChecker.checkHighcard(cardList)) {
+        if (handValueChecker.checkHighcard(cardList)) {
             return Hand.HIGHCARD;
         }
+        // this is not possible to happen at the current stage
         log.error("Unknown error, cannot show hand");
         return Hand.UNKNOWN;
     }

@@ -6,4 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 public class GameException extends Exception{
     public GameException() {
     }
+
+    public GameException(String message) {
+        super(message);
+    }
 }
